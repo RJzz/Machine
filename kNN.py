@@ -2,6 +2,7 @@ import numpy as np
 import operator
 import matplotlib
 import matplotlib.pyplot as plt
+import os
 
 
 def create_date_set():
@@ -100,6 +101,35 @@ def classify_person():
     classifier_result = classify0((in_arr - min_vals) / ranges, nor_mat, dating_labels, 3)
 
     print("You will probably like this person: ", result_list[classifier_result - 1])
+
+
+# 将图片转换为vector
+def img2vector(filename):
+    vector = np.zeros((1, 1024))
+    with open(filename, 'r', ecoding='utf-8') as fp:
+        for i in range(32):
+            line_str  = fp.readline()
+            for j in range(32):
+                vector[0, 32 * i * j] = int(line_str[j])
+
+    return vector
+
+
+# 手写体数字识别
+def handwriting_class_test():
+    hw_labels = []
+    training_file_list = os.listdir('')
+    m = len(training_file_list)
+    training_mat = np.zeros((m, 1024))
+    for i in range(m):
+        file_name_str = training_file_list[i]
+        file_str = file_name_str.split('.')[0]
+        class_number = int(file_str.split('_')[0])
+        hw_labels.append(class_number)
+        training_mat[i, :] = img2vector("")
+
+    # test_file_list =
+    vector_under_test = img2vector('testDigits/%s' % file_name_str)
 
 
 if __name__ == "__main__":
